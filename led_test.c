@@ -12,17 +12,18 @@
 
 int main(void){
     
-    InitTimer();
 
     DDRB = 0xff;
     DDRC = 0xff;
 
-    PORTB = 0x01;
-
-    _delay_ms(500);
-
-    PORTB = 0x00;
-    
+    while(1){
+        PORTB = 0x01;
+        _delay_ms(50);
+        PORTB = 0x00;
+        PORTC = 0X01;
+        _delay_ms(50);
+        PORTC = 0x00;
+    }
     return 0;
 }
 
