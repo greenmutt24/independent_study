@@ -18,10 +18,10 @@ int main(void){
 
     while(1){
         PORTB = 0x01;
-        _delay_ms(50);
+        _delay_ms(500);
         PORTB = 0x00;
         PORTC = 0X01;
-        _delay_ms(50);
+        _delay_ms(500);
         PORTC = 0x00;
     }
     return 0;
