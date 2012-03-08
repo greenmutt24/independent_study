@@ -1,9 +1,9 @@
 CC=/usr/bin/avr-gcc
-MEGA=328p
+MEGA=644
 CFLAGS=-g -Os -Wall -mcall-prologues -mmcu=atmega$(MEGA)
 OBJ2HEX=/usr/bin/avr-objcopy 
 PROG=/usr/bin/avrdude
-TARGET=BlinkLED
+TARGET=led_test
 
 program : $(TARGET).hex
 	$(PROG) -c avrispv2 -p m$(MEGA) -P /dev/ttyUSB0 -e
