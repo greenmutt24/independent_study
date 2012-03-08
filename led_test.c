@@ -4,7 +4,7 @@
 **********************************************************/
 
 #ifndef F_CPU 
-   #define F_CPU 10000000UL      
+   #define F_CPU 100000UL      
 #endif 
 
 #include <avr/io.h>
