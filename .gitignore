@@ -1,4 +1,5 @@
 1.pdf
 1.ps
 1.sch~
-MAKEFILE
+*.hex
+*.o
