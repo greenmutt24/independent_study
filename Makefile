@@ -1,6 +1,6 @@
 CC=/usr/bin/avr-gcc
 MEGA=644
-CFLAGS=-g -Os -Wall -mcall-prologues -mmcu=atmega$(MEGA)
+CFLAGS=-g -Os -Wall -mcall-prologues -std=c99 -mmcu=atmega$(MEGA)
 OBJ2HEX=/usr/bin/avr-objcopy 
 PROG=/usr/bin/avrdude
 TARGET=wall_follow
