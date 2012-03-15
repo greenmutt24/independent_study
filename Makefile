@@ -3,7 +3,7 @@ MEGA=644
 CFLAGS=-g -Os -Wall -mcall-prologues -mmcu=atmega$(MEGA)
 OBJ2HEX=/usr/bin/avr-objcopy 
 PROG=/usr/bin/avrdude
-TARGET=led_test
+TARGET=wall_follow
 
 program : $(TARGET).hex
 	$(PROG) -c avrispv2 -p m$(MEGA) -P /dev/ttyACM0 -e
