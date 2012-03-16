@@ -43,8 +43,8 @@ PD7 - PUSH BUTTON
 /*Init****************************************************/
     DDRB |= (1<<PB0)|(1<<PB3);
     
-    DDRD |= (1<<PD5);
-    
+    DDRD |= (1<<PD0)|(1<<PD1)|(1<<PD2)|(1<<PD3)|(1<<PD5);
+    PORTD |= (1<<PD7);//ENABLING PULL UP    
     //init of pwm on OC0A
     TCCR0A|=(1<<WGM00)|(1<<WGM01)|(1<<COM0A1);
     TCCR0B|=(1<<CS00);
@@ -57,19 +57,21 @@ PD7 - PUSH BUTTON
     ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
     ADMUX |= (1<<ADLAR);
     
-
-
-    while(1){
-    //moving test
-        OCR0A = pwm(100);
-        OCR1A = pwm(100);
-        _delay_s(6);
-        
-        OCR0A = pwm(0);
-        OCR1A = pwm(0);
-        _delay_s(6);
-
+/*setup**************************************************/
+    int base;
+    int i =1;
+    PORTD |= (1<<PD1);
+    while(i){
+        if(!(PIND & (1<<PD7))){
+            base = ADCH;
+            PORTD &= ~(1<<PD1);
+            PORTD |= (1<<PD0);
+            _delay_s(2);
+            i = 0;
+        }
     }
 
-
+    while(1){
+        _delay_ms(1000);
+    }
 }
