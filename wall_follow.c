@@ -26,24 +26,24 @@ void _delay_s(int sec){
 
 /*Main function*******************************************/
 int main(void){
+/*I/0
+PA0 - ADC0 - Distance sensor input
 
+PB0 - Distance sensor control
+PB3 - OC0A - Right motor
+
+    
+PD0 - green led
+PD1 - yellow led
+PD2 - red led
+PD3 - blue led
+PD5 - OC1A - Lect motor
+PD7 - PUSH BUTTON
+*/
 /*Init****************************************************/
     DDRB |= (1<<PB0)|(1<<PB3);
-    //PB0 - Distance sensor control - NPN transistor, write high to enable
-    //PB3 - OC0A - Right motor
     
-    DDRD |= (1<<PD0)|(1<<PD1)|(1<<PD2)|(1<<PD3)|(1<<PD5)|(1<<PD7);
-    //PD0 - green led
-    //PD1 - yellow led
-    //PD2 - red led
-    //PD3 - blue led
-    //PD5 - OC1A - Lect motor
-    //PD7 - push button in
-    
-    
-    /*being used as imputs
-    PA0 - ADC0 - Distance sensor input 
-    */
+    DDRD |= (1<<PD5);
     
     //init of pwm on OC0A
     TCCR0A|=(1<<WGM00)|(1<<WGM01)|(1<<COM0A1);
@@ -56,15 +56,18 @@ int main(void){
     //adc set up
     ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
     ADMUX |= (1<<ADLAR);
+    
+
+
     while(1){
     //moving test
         OCR0A = pwm(100);
         OCR1A = pwm(100);
-        _delay_ms(6000);
+        _delay_s(6);
         
         OCR0A = pwm(0);
         OCR1A = pwm(0);
-        _delay_ms(6000);
+        _delay_s(6);
 
     }
 
