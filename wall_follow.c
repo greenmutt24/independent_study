@@ -18,7 +18,7 @@ int percent_to_8bit(uint8_t percent){
     return duty;
 };
 
-void _delay_s(int sec){
+void delay_s(int sec){
     for(int i; i< sec;i++){
         _delay_ms(1000);
     }
@@ -37,8 +37,8 @@ PD0 - green led
 PD1 - yellow led
 PD2 - red led
 PD3 - blue led
-PD5 - OC1A - Lect motor
-PD7 - PUSH BUTTON
+PD7 - OC2A - Lect motor
+PD6 - PUSH BUTTON
 */
 /*Init****************************************************/
     DDRB |= (1<<PB0)|(1<<PB3);
@@ -67,16 +67,26 @@ PD7 - PUSH BUTTON
             base = ADCH;
             PORTD &= ~(1<<PD1);
             PORTD |= (1<<PD0);
-            _delay_s(5);
+            delay_s(10);
             i = 0;
         }
     }
 
-    int prev_left = 50;
-    int prev_right = 50;
-    int band = 15;//percent
+    int P = 1;
+    int p_error;
+    int I = 1;
+    int i_error;
+    int D = 1;
+    int d_error;
+    int previous_distance = base;
+    int current_distance;
+    int area = 0;
+    int samples = 0;//counter
+    int band = 5;
     while(1){
-        PORTD &= ~((1<<PD1)|(1<<PD2)|(1<<PD3));
+    current_distance = ADCH;
+    samples++;
+/*        PORTD &= ~((1<<PD1)|(1<<PD2)|(1<<PD3));
         
         if (ADCH > (base + band)){
             PORTD |= (1<<PD3);
@@ -93,6 +103,19 @@ PD7 - PUSH BUTTON
             OCR0A = percent_to_8bit(60);
             OCR2A = percent_to_8bit(60);
         }
+*/
+
+/*PID emplimentation*************************************/
+        p_error = base - current_distance;
+        i_error = (previous_distance + current_distance)/2;
+        i_error = (area + i_error)/samples; 
+        d_error = (previous_distance - current_distance)/2;
+
+        //motor set
+        OCR0A = 50 - (P*p_error) - (I*i_error) - (D*d_error);
+        OCR2A = 50 - (P*p_error) - (I*i_error) - (D*d_error);
+
+        area = area + current_distance;
         _delay_ms(500);   
     }
 }
