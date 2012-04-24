@@ -1,15 +1,9 @@
 /**********************************************************
 *Anthony Webb
-*AVR USART .c file
+*cpu clock 
 **********************************************************/
-#include <usart.h>
 
-void usart_init(){
-};
-
-int usart_read(){
-};
-
-bool usart_write(string data){
-};
+#ifndef F_CPU 
+   #define F_CPU 1000000UL      
+#endif 
 
