@@ -1,19 +1,34 @@
-CC=/usr/bin/avr-gcc
-MEGA=644
-CFLAGS=-g -Os -Wall -mcall-prologues -std=c99 -mmcu=atmega$(MEGA)
-OBJ2HEX=/usr/bin/avr-objcopy 
-PROG=/usr/bin/avrdude
 TARGET=rc
+MCU=atmega644
+CFILES=rc.c usart.c
 
-program : $(TARGET).hex
-	$(PROG) -c avrispv2 -p m$(MEGA) -P /dev/ttyACM0 -e
-	$(PROG) -c avrispv2 -p m$(MEGA) -P /dev/ttyACM0 -U flash:w:$(TARGET).hex
 
-%.obj : %.o
-	$(CC) $(CFLAGS) $< -o $@
+# everything past this line need not be changed
+# except maybe cflags, but that's it
 
-%.hex : %.obj
-	$(OBJ2HEX) -R .eeprom -O ihex $< $@
+CFLAGS=-Os -Wall -std=c99 -mcall-prologues
+OFILES=${CFILES:.c=.o}
 
-clean :
-	rm -f *.hex *.obj *.o
+all: ${TARGET}.hex ${TARGET}.lst
+
+# hexfile generation step
+${TARGET}.hex: ${TARGET}.elf
+	avr-objcopy -j .text -j .data -O ihex $< $@
+
+# linker step
+${TARGET}.elf: ${OFILES}
+	avr-gcc -mmcu=${MCU} -o $@ $^
+
+# compile step
+%.o: %.c
+	avr-gcc ${CFLAGS} -mmcu=${MCU} -g -c -o $@ $<
+
+clean:
+	@rm -f *.o
+	@rm -f "${TARGET}.hex"
+	@rm -f "${TARGET}.elf"
+	@rm -f "${TARGET}.lst"
+
+# dumps the executable to a disassembly
+${TARGET}.lst: ${TARGET}.elf
+	avr-objdump -g -h -S $< > ${TARGET}.lst

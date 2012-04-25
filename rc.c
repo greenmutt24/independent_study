@@ -3,10 +3,8 @@
 *this is atesting program for both programing and compiling
 **********************************************************/
 
-#ifndef F_CPU 
-   #define F_CPU 1000000UL      
-#endif 
-
+#include "cpu_clock.h"
+#include "usart.h"
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -36,8 +34,7 @@ int main(void){
     MCUCR |= (1<<JTD);
 //    DDRB |= (1<<PB0)|(1<<PB3);
 //    PORTB |= (1<<PB0);
-    DDRC |= (1<<PC0)|(1<<PC1)|(1<<PC2)|(1<<PC3)|(1<<PC4)|(1<<PC5)|(1<<PC6)|(1<<PC7);
-    PORTC = 0x00;
+    DDRC |= (1<<PC3);
 //    DDRD |= (1<<PD0)|(1<<PD1)|(1<<PD2)|(1<<PD3)|(1<<PD7);
 //    PORTD |= (1<<PD6);//ENABLING PULL UP    
 
