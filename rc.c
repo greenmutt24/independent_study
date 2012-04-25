@@ -7,6 +7,11 @@
 #include "usart.h"
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
+
+#define THRESHOLD 200
+
+unsigned char read_byte;
 
 //input the percent you want returns the 8 bit value of
 //given percent
@@ -25,10 +30,14 @@ void delay_ms(uint16_t ms) {
         }
 }
 
+/*usart interupt*******************************************/
+ISR(USART0_RX_vect){
+    read_byte = usart_read();
+}
+
 /*Main function*******************************************/
 int main(void){
-/*I/0
-*/
+/*I/0*/
 /*Init****************************************************/
     MCUCR |= (1<<JTD);
     MCUCR |= (1<<JTD);
@@ -47,15 +56,27 @@ int main(void){
 //    TCCR2B|=(1<<CS20);
     
     //adc set up
-//    ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
-//    ADMUX |= (1<<ADLAR)|(1<<REFS1)|(1<<REFS0);
+    ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
+    ADMUX |= (1<<REFS1)|(1<<REFS0);
     
 /*setup**************************************************/
+    
+    usart_init();
+    uint16_t adc_full;
+    sei();
+
+
     while(1){
-        PORTC &= ~(1<<PC3);
-        delay_ms(1000);
-        PORTC |= (1<<PC3);
-        delay_ms(1000);
+    
+    adc_full = ( ((uint16_t)(ADCH) << 8)|ADCL);
+
+    if( adc_full > THRESHOLD ) {
+        //wall_avoid();
+        PORTC ^= (1 << PC3);
+        
+    }
+    //do what usart wants
+    
     }
 
 }
