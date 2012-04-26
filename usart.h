@@ -15,5 +15,5 @@ void usart_init();
 
 unsigned char usart_read();
 
-void usart_write(unsigned int data);
+void usart_write(char data);
 

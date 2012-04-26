@@ -9,8 +9,8 @@ void usart_init(){
     UBRR0H = (unsigned char)(UBBR_VALUE >> 8);
     UBRR0L = (unsigned char)UBBR_VALUE;
     
-    //enabling receiver
-    UCSR0B = (1 << RXEN0);
+    //enabling receiver and transmitter
+    UCSR0B = (1 << RXEN0)|(1<<TXEN0);
 
     // Set gram format: 8 data, 2 stop bit
     UCSR0C = (1 << USBS0)|(3 << UCSZ00);
@@ -27,7 +27,7 @@ unsigned char usart_read(){
 
 };
 
-void usart_write(unsigned int data){
+void usart_write(char data){
 
     /* Wait for empty transmit buffer */
     while ( !( UCSR0A & (1 << UDRE0)) ){};

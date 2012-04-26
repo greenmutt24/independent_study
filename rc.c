@@ -9,7 +9,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-#define THRESHOLD 200
+#define THRESHOLD 650
 
 unsigned char read_byte;
 
@@ -43,7 +43,7 @@ int main(void){
     MCUCR |= (1<<JTD);
 //    DDRB |= (1<<PB0)|(1<<PB3);
 //    PORTB |= (1<<PB0);
-    DDRC |= (1<<PC3);
+    DDRC |= (1<<PC3)|(1<<PB4);
 //    DDRD |= (1<<PD0)|(1<<PD1)|(1<<PD2)|(1<<PD3)|(1<<PD7);
 //    PORTD |= (1<<PD6);//ENABLING PULL UP    
 
@@ -57,24 +57,41 @@ int main(void){
     
     //adc set up
     ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
+    //ADMUX |= (1<<ADLAR)|(1<<REFS1)|(1<<REFS0);
+    
     ADMUX |= (1<<REFS1)|(1<<REFS0);
     
 /*setup**************************************************/
     
     usart_init();
-    uint16_t adc_full;
+    uint16_t adc_full = 0;
     sei();
 
 
     while(1){
-    
-    adc_full = ( ((uint16_t)(ADCH) << 8)|ADCL);
-
-    if( adc_full > THRESHOLD ) {
-        //wall_avoid();
-        PORTC ^= (1 << PC3);
+        adc_full = 0; 
+        adc_full = ( ((uint16_t)(ADCH) << 8)|ADCL);
+        /*if( adc_full > THRESHOLD ) {
+            //wall_avoid();
+            PORTC |= (1 << PC3);
+        }else {
+            PORTC &= (0<< PC3);
+        }*/
         
-    }
+        /*if(read_byte == 'c'){
+            PORTC |= (1 << PB4);
+        }else{
+            PORTC &= (1 << PB4);
+            PORTC |= (1 << PB3);
+        }*/
+
+        
+        usart_write('h');
+        usart_write('i');
+        _delay_ms(500);
+
+
+        //usart_write(ADCL);
     //do what usart wants
     
     }
