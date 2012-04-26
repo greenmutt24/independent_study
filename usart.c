@@ -17,7 +17,7 @@ void usart_init(){
 
 };
 
-unsigned char usart_read(){
+char usart_read(){
 
     /* Wait for empty transmit buffer */
     while ( !( UCSR0A & (1 << RXC0)) ){};

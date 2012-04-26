@@ -31,7 +31,7 @@ void delay_ms(uint16_t ms) {
 }
 
 /*usart interupt*******************************************/
-ISR(USART0_RX_vect){
+ISR(USART_RX_vect){
     read_byte = usart_read();
 }
 
@@ -78,16 +78,15 @@ int main(void){
             PORTC &= (0<< PC3);
         }*/
         
-        /*if(read_byte == 'c'){
+        if(read_byte == 'c'){
             PORTC |= (1 << PB4);
         }else{
-            PORTC &= (1 << PB4);
+            //PORTC &= (1 << PB4);
             PORTC |= (1 << PB3);
-        }*/
+        }
 
         
-        usart_write('h');
-        usart_write('i');
+        usart_write('c');
         _delay_ms(500);
 
 

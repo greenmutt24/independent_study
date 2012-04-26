@@ -13,7 +13,7 @@
 
 void usart_init();
 
-unsigned char usart_read();
+char usart_read();
 
 void usart_write(char data);
 
