@@ -8,7 +8,7 @@
 #include <util/delay.h>
 #include <string.h>
 
-#define BAUD_RATE 115200
+#define BAUD_RATE 4800
 #define UBBR_VALUE ((F_CPU / (BAUD_RATE * 16UL)) - 1)
 
 void usart_init();

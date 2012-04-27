@@ -10,17 +10,17 @@ void usart_init(){
     UBRR0L = (unsigned char)UBBR_VALUE;
     
     //enabling receiver and transmitter
-    UCSR0B = (1 << RXEN0)|(1<<TXEN0);
+    UCSR0B = (1 << RXEN0)|(1<<TXEN0)|(1<<RXCIE0)|(1<<TXCIE0);
 
-    // Set gram format: 8 data, 2 stop bit
-    UCSR0C = (1 << USBS0)|(3 << UCSZ00);
+    // Set gram format: 8 data, 1 stop bit
+    UCSR0C = (1 << UCSZ00)|(1<<UCSZ01);
 
 };
 
 char usart_read(){
 
     /* Wait for empty transmit buffer */
-    while ( !( UCSR0A & (1 << RXC0)) ){};
+    //while ( !( UCSR0A & (1 << RXC0)) ){};
 
     /* Put data into buffer, sends the data */
     return UDR0;
