@@ -46,7 +46,7 @@ int main(void){
 
     DDRB |= (1<<PB3);
 //    PORTB |= (1<<PB0);
-    DDRC |= (1<<PC0)|(1<<PC1)|(1<<PC3)|(1<<PC4);
+    DDRC |= (1<<PC0)|(1<<PC1)|(1<<PC3)|(1<<PC4)|(1<<PC6);
     DDRD |= (1<<PD7);
 //    PORTD |= (1<<PD6);//ENABLING PULL UP    
 
@@ -59,10 +59,10 @@ int main(void){
 //    TCCR2B|=(1<<CS20);
     
     //adc set up
-    ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
+    //ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
     //ADMUX |= (1<<ADLAR)|(1<<REFS1)|(1<<REFS0);
     
-    ADMUX |= (1<<REFS1)|(1<<REFS0);
+    //ADMUX |= (1<<REFS1)|(1<<REFS0);
     
 /*setup**************************************************/
     
