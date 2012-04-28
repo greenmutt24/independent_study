@@ -46,7 +46,7 @@ int main(void){
 
     DDRB |= (1<<PB3);
 //    PORTB |= (1<<PB0);
-    DDRC |= (1<<PC0)|(1<<PC1)|(1<<PC3)|(1<<PC4)|(1<<PC6);
+    DDRC |= (1<<PC0)|(1<<PC1)|(1<<PC2)|(1<<PC3)|(1<<PC4)|(1<<PC6);
     DDRD |= (1<<PD7);
 //    PORTD |= (1<<PD6);//ENABLING PULL UP    
 
