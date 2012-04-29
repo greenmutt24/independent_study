@@ -9,7 +9,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-#define THRESHOLD 650
+#define THRESHOLD 600
 
 unsigned char read_byte;
 
@@ -59,10 +59,10 @@ int main(void){
 //    TCCR2B|=(1<<CS20);
     
     //adc set up
-    //ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
+    ADCSRA |= (1<<ADATE)|(1<<ADEN)|(1<<ADSC);
     //ADMUX |= (1<<ADLAR)|(1<<REFS1)|(1<<REFS0);
     
-    //ADMUX |= (1<<REFS1)|(1<<REFS0);
+    ADMUX |= (1<<REFS1)|(1<<REFS0);
     
 /*setup**************************************************/
     
@@ -74,15 +74,31 @@ int main(void){
     PORTC |= (1<< PC0)|(1<<PC1)|(1<<PC3);
 
     while(1){
-        /*adc_full = 0; 
         adc_full = ( ((uint16_t)(ADCH) << 8)|ADCL);
+
         if( adc_full > THRESHOLD ) {
             //wall_avoid();
-            PORTC |= (1 << PC3);
-        }else {
-            PORTC &= (0<< PC3);
-        }*/
-        _delay_ms(500);
+            //back
+            //left motor back
+            PORTB |= (1<< PB3);//1A
+            PORTC &= ~(1<< PC2);//2A
+            //right motor back
+            PORTD |= (1<< PD7);//3A
+            PORTC &= ~(1<< PC6);//4A
+            _delay_ms(500);
+
+            //stop
+            //left motor stop
+            PORTB &= ~(1<< PB3);//1A
+            PORTC &= ~(1<< PC2);//2A
+            //right motor stop
+            PORTD &= ~(1<< PD7);//3A
+            PORTC &= ~(1<< PC6);//4A
+            delay_s(1);
+
+        }
+
+
         if(read_byte == 'w'){
             //forward
             //left motor forward
@@ -121,10 +137,10 @@ int main(void){
 
         }else if(read_byte == 'r'){
             //stop
-            //left motor forward
+            //left motor stop
             PORTB &= ~(1<< PB3);//1A
             PORTC &= ~(1<< PC2);//2A
-            //right motor forward
+            //right motor stop
             PORTD &= ~(1<< PD7);//3A
             PORTC &= ~(1<< PC6);//4A
 
