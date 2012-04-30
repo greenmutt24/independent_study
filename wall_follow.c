@@ -1,6 +1,6 @@
 /**********************************************************
 *Anthony Webb
-*this is atesting program for both programing and compiling
+*this is a band based wall folowing algorithm
 **********************************************************/
 
 #ifndef F_CPU 
@@ -72,21 +72,11 @@ PD6 - PUSH BUTTON
         }
     }
 
-    int P = 1;
-    int p_error;
-    int I = 1;
-    int i_error;
-    int D = 1;
-    int d_error;
-    int previous_distance = base;
-    int current_distance;
-    int area = 0;
-    int samples = 0;//counter
-    int band = 5;
+    int band = 10;
     while(1){
     current_distance = ADCH;
     samples++;
-/*        PORTD &= ~((1<<PD1)|(1<<PD2)|(1<<PD3));
+        PORTD &= ~((1<<PD1)|(1<<PD2)|(1<<PD3));
         
         if (ADCH > (base + band)){
             PORTD |= (1<<PD3);
@@ -103,19 +93,7 @@ PD6 - PUSH BUTTON
             OCR0A = percent_to_8bit(60);
             OCR2A = percent_to_8bit(60);
         }
-*/
 
-/*PID emplimentation*************************************/
-        p_error = base - current_distance;
-        i_error = (previous_distance + current_distance)/2;
-        i_error = (area + i_error)/samples; 
-        d_error = (previous_distance - current_distance)/2;
-
-        //motor set
-        OCR0A = 50 - (P*p_error) - (I*i_error) - (D*d_error);
-        OCR2A = 50 - (P*p_error) - (I*i_error) - (D*d_error);
-
-        area = area + current_distance;
         _delay_ms(500);   
     }
 }

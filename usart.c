@@ -1,6 +1,6 @@
 /**********************************************************
 *Anthony Webb
-*AVR USART .c file
+*AVR USART c file
 **********************************************************/
 #include "usart.h"
 
@@ -18,9 +18,6 @@ void usart_init(){
 };
 
 char usart_read(){
-
-    /* Wait for empty transmit buffer */
-    //while ( !( UCSR0A & (1 << RXC0)) ){};
 
     /* Put data into buffer, sends the data */
     return UDR0;
