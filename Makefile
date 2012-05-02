@@ -1,6 +1,6 @@
 TARGET=rc
 MCU=atmega644
-CFILES=rc.c usart.c
+CFILES=rc.c usart.c sonar.c
 PROG=/usr/bin/avrdude
 
 
